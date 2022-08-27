@@ -21,38 +21,32 @@ type Props = {
   tracks: [IMicrophoneAudioTrack, ICameraVideoTrack] | null;
   ready: boolean;
   client: IAgoraRTCClient;
+  leaveMeeting: () => Promise<void>;
 };
-const MainScreen = ({ ready, client, tracks }: Props) => {
+const MainScreen = ({ tracks, leaveMeeting }: Props) => {
   const session = useSession();
-  const [isAudioActive, setIsAudioActive] = useState(true);
-  const [isVideoActive, setIsVideoActive] = useState(true);
-  // const [isVideoActive, setIsVideoActive] = useState(true);
-  useEffect(() => {
-    const init = async () => {
-      try {
-        if (session.data) {
-          await client.join(
-            env.NEXT_PUBLIC_AGORA_APP_ID,
-            env.NEXT_PUBLIC_AGORA_CHANNEL_NAME,
-            env.NEXT_PUBLIC_AGORA_APP_TOKEN,
-            session.data.user?.id
-          );
+  const [trackState, setTrackState] = useState({ video: true, audio: true });
 
-          if (tracks) await client.publish([tracks[0], tracks[1]]);
-        }
-      } catch (error) {
-        console.log(error);
+  const mute = async (type: "video" | "audio") => {
+    if (tracks) {
+      if (type === "audio") {
+        await tracks[0].setEnabled(!trackState.audio);
+        setTrackState((ps) => {
+          return { ...ps, audio: !ps.audio };
+        });
+      } else if (type === "video") {
+        await tracks[1].setEnabled(!trackState.video);
+        setTrackState((ps) => {
+          return { ...ps, video: !ps.video };
+        });
       }
-    };
-    init();
-  }, []);
-  const data = useAuth();
-  if (!data) return <div className="">loading</div>;
+    }
+  };
   return (
     <>
-      <div className="space-y-4 flex flex-col items-center">
-        <div className="w-full h-96 bg-base-100 rounded-lg flex justify-center items-center">
-          {tracks && isVideoActive ? (
+      <div className="space-y-4 flex flex-col items-center rounded-lg">
+        <div className="w-full h-96 bg-base-100 rounded-lg overflow-hidden flex justify-center items-center">
+          {tracks && trackState.video ? (
             <AgoraVideoPlayer
               videoTrack={tracks[1]}
               style={{ height: "100%", width: "100%" }}
@@ -71,11 +65,10 @@ const MainScreen = ({ ready, client, tracks }: Props) => {
             <button
               className="btn text-lg"
               onClick={() => {
-                setIsAudioActive(!isAudioActive);
-                if (tracks) tracks[0].setMuted(!tracks[0].muted);
+                mute("audio");
               }}
             >
-              {isAudioActive ? (
+              {trackState.audio ? (
                 <FiMic className="text-blue-500" />
               ) : (
                 <FiMicOff className="text-red-500" />
@@ -84,11 +77,10 @@ const MainScreen = ({ ready, client, tracks }: Props) => {
             <button
               className="btn text-lg"
               onClick={() => {
-                setIsVideoActive(!isVideoActive);
-                if (tracks) tracks[1].setMuted(!tracks[1].muted);
+                mute("video");
               }}
             >
-              {isVideoActive ? (
+              {trackState.video ? (
                 <FiVideo className="text-blue-500" />
               ) : (
                 <FiVideoOff className="text-red-500" />
@@ -97,7 +89,7 @@ const MainScreen = ({ ready, client, tracks }: Props) => {
             <button className="btn focus:btn-active">
               <FiMonitor className="text-blue-500 text-xl" />
             </button>
-            <button className="btn focus:btn-active">
+            <button className="btn focus:btn-active" onClick={leaveMeeting}>
               <FiPhoneMissed className="text-red-500 text-xl" />
             </button>
           </div>

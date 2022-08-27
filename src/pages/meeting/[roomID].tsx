@@ -1,6 +1,9 @@
 import { NextPage, GetStaticProps } from "next";
+import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import Router from "next/router";
+import { useEffect } from "react";
 const AgoraMain = dynamic(import("../../components/AgoraMain"), { ssr: false });
 
 type Room = {
@@ -39,7 +42,22 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 const MeetingRoom: NextPage<Props> = ({ roomInfo }: Props) => {
-  // console.log(props);
+  const session = useSession();
+
+  useEffect(() => {
+    //Redirect the user to the login page
+    if (session.status == "unauthenticated") {
+      Router.push("/login");
+    }
+  }, [session]);
+
+  if (session.status == "loading")
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <p className="btn loading">Loading</p>
+      </div>
+    );
+
   return (
     <>
       <Head>

@@ -68,7 +68,7 @@ const Video = ({ setIsReady }: Props) => {
     };
 
     init();
-  }, [client, Users, tracks, ready,session]);
+  }, [client, Users, tracks, ready]);
   const leaveMeeting = async () => {
     await client.leave();
     await client.removeAllListeners();

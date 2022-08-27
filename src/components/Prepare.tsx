@@ -13,28 +13,11 @@ const useClient = createClient(config);
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
 const Prepare = () => {
-  const session = useSession();
   const client = useClient();
+  const session = useSession();
   const { ready, tracks } = useMicrophoneAndCameraTracks();
   const [isAudioActive, setIsAudioActive] = useState(true);
   const [isVideoActive, setIsVideoActive] = useState(true);
-  useEffect(() => {
-    const init = async () => {
-      try {
-        if (session.data) {
-          await client.join(
-            env.NEXT_PUBLIC_AGORA_APP_ID,
-            env.NEXT_PUBLIC_AGORA_CHANNEL_NAME,
-            env.NEXT_PUBLIC_AGORA_APP_TOKEN,
-            session.data.user?.id
-          );
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    init();
-  }, []);
 
   return (
     <>
