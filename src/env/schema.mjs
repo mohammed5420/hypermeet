@@ -1,5 +1,5 @@
 // @ts-check
-import { z } from "zod";
+import { string, z } from "zod";
 
 /**
  * Specify your server-side environment variables schema here.
@@ -12,6 +12,8 @@ export const serverSchema = z.object({
   NEXTAUTH_URL: z.string().url(),
   GITHUB_CLIENT_ID: z.string(),
   GITHUB_CLIENT_SECRET: z.string(),
+  DISCORD_CLIENT_ID: z.string(),
+  DISCORD_CLIENT_SECRET: z.string(),
 });
 
 /**
@@ -21,6 +23,9 @@ export const serverSchema = z.object({
  */
 export const clientSchema = z.object({
   // NEXT_PUBLIC_BAR: z.string(),
+  NEXT_PUBLIC_AGORA_APP_ID: z.string(),
+  NEXT_PUBLIC_AGORA_CHANNEL_NAME: z.string(),
+  NEXT_PUBLIC_AGORA_APP_TOKEN: z.string()
 });
 
 /**
@@ -31,4 +36,7 @@ export const clientSchema = z.object({
  */
 export const clientEnv = {
   // NEXT_PUBLIC_BAR: process.env.NEXT_PUBLIC_BAR,
+  NEXT_PUBLIC_AGORA_APP_ID: process.env.NEXT_PUBLIC_AGORA_APP_ID,
+  NEXT_PUBLIC_AGORA_CHANNEL_NAME: process.env.NEXT_PUBLIC_AGORA_CHANNEL_NAME,
+  NEXT_PUBLIC_AGORA_APP_TOKEN: process.env.NEXT_PUBLIC_AGORA_APP_TOKEN
 };
