@@ -3,7 +3,7 @@ import { FiMic, FiMicOff } from "react-icons/fi";
 
 const Member = () => {
   return (
-    <div className="rounded-lg overflow-hidden relative">
+    <div className="rounded-lg overflow-hidden h-48 relative col-span-3">
       <img
         className="w-full h-48 object-cover"
         src="https://api.lorem.space/image/face?w=720&h=480"

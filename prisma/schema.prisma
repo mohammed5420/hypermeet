@@ -48,13 +48,14 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String        @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?       @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
+    MeetingRoom   MeetingRoom[]
 }
 
 model VerificationToken {
@@ -63,4 +64,10 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model MeetingRoom {
+    id     String @id @default(cuid())
+    hostID String
+    host   User   @relation(fields: [hostID], references: [id], onDelete: Cascade)
 }

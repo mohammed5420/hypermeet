@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Router from "next/router";
 import Link from "next/link";
+import JoinMeeting from "../components/JoinMeeting";
+import axios from "axios";
 
 // const Video = dynamic(import("../components/Video"), { ssr: false });
 
@@ -28,6 +30,15 @@ const Home: NextPage = () => {
     );
 
   // console.log(session);
+  const createNewMeeting = async () => {
+    if (session.data) {
+      const { data } = await axios.post("/api/room/meeting", {
+        host: session.data.user?.id,
+      });
+
+      Router.push(`/prepare?id=${data.id}`);
+    }
+  };
 
   return (
     <>
@@ -53,18 +64,14 @@ const Home: NextPage = () => {
               </h2>
               <div className="card-actions space-y-4">
                 <div className="w-full">
-                  <button className={`btn btn-primary w-full`}>
-                    <Link href="/prepare">Start New Meeting</Link>
+                  <button
+                    className={`btn btn-primary w-full`}
+                    onClick={createNewMeeting}
+                  >
+                    Start New Meeting
                   </button>
                 </div>
-                <input
-                  className="input"
-                  placeholder="Enter Room ID"
-                  type="text"
-                  name="roomID"
-                  id="roomID"
-                />
-                <button className={`btn btn-secondary `}>Join Meeting</button>
+                <JoinMeeting />
               </div>
             </div>
           </div>

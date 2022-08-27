@@ -1,17 +1,13 @@
+import dynamic from "next/dynamic";
 import Head from "next/head";
-import Link from "next/link";
-import React, { useState } from "react";
-import {
-  FiArrowLeft,
-  FiMic,
-  FiMicOff,
-  FiVideo,
-  FiVideoOff,
-} from "react-icons/fi";
-import useAuth from "../hooks/useAuth";
+import Router from "next/router";
+import { FiArrowLeft, FiVideo } from "react-icons/fi";
+const Prepare = dynamic(import("../components/Prepare"), { ssr: false });
 const PrePare = () => {
-  const [isAudioActive, setIsAudioActive] = useState(true);
-  const [isVideoActive, setIsVideoActive] = useState(true);
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const { id } = Router.query;
+    Router.push(`/meeting/${id}`);
+  };
   return (
     <>
       <Head>
@@ -31,44 +27,15 @@ const PrePare = () => {
               </h2>
             </div>
           </div>
-          <div className="card-body p-0 rounded-lg overflow-hidden">
-            <img
-              className="w-full h-80 object-cover"
-              src="https://api.lorem.space/image/face?w=720&h=480"
-              alt="Shoes"
-            />
+          <div className="space-y-3">
+            <Prepare />
           </div>
           <div className="card-actions flex justify-center items-center">
             <button
-              className="btn btn-circle text-lg"
-              onClick={() => setIsAudioActive(!isAudioActive)}
+              className="btn btn-primary  w-full flex justify-center items-center"
+              onClick={handleSubmit}
             >
-              {isAudioActive ? (
-                <FiMic className="text-blue-500" />
-              ) : (
-                <FiMicOff className="text-red-500" />
-              )}
-            </button>
-            <button
-              className="btn btn-circle text-lg"
-              onClick={() => setIsVideoActive(!isVideoActive)}
-            >
-              {isVideoActive ? (
-                <FiVideo className="text-blue-500" />
-              ) : (
-                <FiVideoOff className="text-red-500" />
-              )}
-            </button>
-          </div>
-          <div className="card-actions flex justify-center items-center">
-            <button className="btn btn-primary  w-full">
-              <Link
-                href={`/meeting/${Math.round(Math.random() * 10000000000000)}`}
-              >
-                <a className="flex justify-center items-center">
-                  <FiVideo className="text-lg mr-2" /> Start New Meeting
-                </a>
-              </Link>
+              <FiVideo className="text-lg mr-2" /> Start New Meeting
             </button>
           </div>
         </div>
