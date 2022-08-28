@@ -15,6 +15,9 @@ type Room = {
 export async function getStaticPaths() {
   const result = await fetch(`${process.env.APP_URL}/api/room`);
   const data = await result.json();
+  if (data?.message) {
+    return;
+  }
   const paths = await data.map((room: Room) => {
     return { params: { roomID: room.id.toString() } };
   });

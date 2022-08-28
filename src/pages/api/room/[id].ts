@@ -13,6 +13,6 @@ export default async function handler(
     });
     res.status(200).json(data);
   } else {
-    res.status(405).end("Id not found!!");
+    res.status(405).json({ type: "error", message: "data not found" });
   }
 }
