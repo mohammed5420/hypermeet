@@ -13,7 +13,7 @@ type Room = {
 };
 
 export async function getStaticPaths() {
-  const result = await fetch("http://localhost:3000/api/room");
+  const result = await fetch(`${process.env.APP_URL}/api/room`);
   const data = await result.json();
   const paths = await data.map((room: Room) => {
     return { params: { roomID: room.id.toString() } };
@@ -33,7 +33,9 @@ type Props = {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   if (!params) return { props: {} };
-  const result = await fetch(`http://localhost:3000/api/room/${params.roomID}`);
+  const result = await fetch(
+    `${process.env.APP_URL}/api/room/${params.roomID}`
+  );
   const roomInfo = await result.json();
   return {
     props: {
