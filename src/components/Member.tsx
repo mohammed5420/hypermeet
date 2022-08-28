@@ -35,7 +35,7 @@ const Member = ({ agoraUser }: Props) => {
               style={{ height: "100%", width: "100%" }}
             />
           ) : (
-            <div className="h-full w-full flex justify-center bg-base-100 items-center">
+            <div className="h-full w-full flex justify-center bg-base-300 items-center">
               <img src={user?.image || ""} className="w-24 rounded-full" />
             </div>
           )}
@@ -46,7 +46,7 @@ const Member = ({ agoraUser }: Props) => {
         </>
       )}
       <div className="absolute max-h-max p-1 rounded-md right-2 bottom-3 z-10">
-        {agoraUser.hasAudio ? (
+        {agoraUser.audioTrack && agoraUser.hasAudio ? (
           <FiMic className="text-blue-500" />
         ) : (
           <FiMicOff className="text-red-500" />

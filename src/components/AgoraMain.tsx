@@ -30,30 +30,52 @@ const AgoraMain = () => {
 
   useEffect(() => {
     if (!session.data) return;
+    client.on("user-joined", async (user) => {
+      setUsers((prevUsers) => {
+        return [...Array.from(new Set([...prevUsers, user]))];
+      });
+    });
+
     client.on("user-published", async (user, mediaType) => {
       await client.subscribe(user, mediaType);
       if (mediaType === "video") {
         setUsers((prevUsers) => {
-          return [...Array.from(new Set([...prevUsers, user]))];
+          return prevUsers.filter((User) => {
+            if (User.uid == user.uid) return user;
+          });
         });
       }
       if (mediaType === "audio") {
         user.audioTrack?.play();
+        setUsers((prevUsers) => {
+          return prevUsers.filter((User) => {
+            if (User.uid == user.uid) return user;
+          });
+        });
       }
     });
 
     client.on("user-unpublished", (user, mediaType) => {
       if (mediaType === "audio") {
         if (user.audioTrack) user.audioTrack.stop();
+        setUsers((prevUsers) => {
+          return prevUsers.filter((User) => {
+            if (User.uid == user.uid) return user;
+          });
+        });
       }
       if (mediaType === "video") {
+        if (user.videoTrack) user.videoTrack.stop();
         setUsers((prevUsers) => {
-          return prevUsers.filter((User) => User.uid !== user.uid);
+          return prevUsers.filter((User) => {
+            if (User.uid == user.uid) return user;
+          });
         });
       }
     });
 
     client.on("user-left", (user) => {
+      console.log("User Left");
       if (user.hasAudio && user.audioTrack) user.audioTrack.stop();
       if (user.hasVideo && user.videoTrack) user.videoTrack.stop();
       setUsers((prevUsers) => {
@@ -96,7 +118,7 @@ const AgoraMain = () => {
     try {
       // if (tracks) await client.unpublish([tracks[0], tracks[1]]);
       await client.leave();
-      await client.removeAllListeners();
+      client.removeAllListeners();
       if (tracks) {
         tracks[0].close();
         tracks[1].close();

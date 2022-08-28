@@ -6,6 +6,8 @@ import {
   createClient,
   createMicrophoneAndCameraTracks,
 } from "agora-rtc-react";
+import { useAtom } from "jotai";
+import { micAtom, cameraAtom } from "../jotai";
 import { env } from "../env/client.mjs";
 import { useSession } from "next-auth/react";
 const config: ClientConfig = { mode: "rtc", codec: "vp8" };
@@ -16,8 +18,8 @@ const Prepare = () => {
   const client = useClient();
   const session = useSession();
   const { ready, tracks } = useMicrophoneAndCameraTracks();
-  const [isAudioActive, setIsAudioActive] = useState(true);
-  const [isVideoActive, setIsVideoActive] = useState(true);
+  const [isAudioActive, setIsAudioActive] = useAtom(micAtom);
+  const [isVideoActive, setIsVideoActive] = useAtom(cameraAtom);
 
   return (
     <>

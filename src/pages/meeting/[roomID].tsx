@@ -43,7 +43,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 const MeetingRoom: NextPage<Props> = ({ roomInfo }: Props) => {
   const session = useSession();
-
   useEffect(() => {
     //Redirect the user to the login page
     if (session.status == "unauthenticated") {

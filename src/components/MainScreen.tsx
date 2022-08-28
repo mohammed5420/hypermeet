@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   FiMic,
   FiMicOff,
@@ -8,7 +8,6 @@ import {
   FiVideo,
   FiVideoOff,
 } from "react-icons/fi";
-import useAuth from "../hooks/useAuth";
 
 import {
   AgoraVideoPlayer,
@@ -17,6 +16,9 @@ import {
   IMicrophoneAudioTrack,
 } from "agora-rtc-react";
 import { env } from "../env/client.mjs";
+import { cameraAtom, micAtom } from "../jotai";
+import { useAtom } from "jotai";
+
 type Props = {
   tracks: [IMicrophoneAudioTrack, ICameraVideoTrack] | null;
   ready: boolean;
@@ -24,21 +26,18 @@ type Props = {
   leaveMeeting: () => Promise<void>;
 };
 const MainScreen = ({ tracks, leaveMeeting }: Props) => {
+  const [isAudioActive, setIsAudioActive] = useAtom(micAtom);
+  const [isVideoActive, setIsVideoActive] = useAtom(cameraAtom);
   const session = useSession();
-  const [trackState, setTrackState] = useState({ video: true, audio: true });
 
   const mute = async (type: "video" | "audio") => {
     if (tracks) {
       if (type === "audio") {
-        await tracks[0].setEnabled(!trackState.audio);
-        setTrackState((ps) => {
-          return { ...ps, audio: !ps.audio };
-        });
+        await tracks[0].setEnabled(!isAudioActive);
+        setIsAudioActive(!isAudioActive);
       } else if (type === "video") {
-        await tracks[1].setEnabled(!trackState.video);
-        setTrackState((ps) => {
-          return { ...ps, video: !ps.video };
-        });
+        await tracks[1].setEnabled(!isVideoActive);
+        setIsVideoActive(!isVideoActive);
       }
     }
   };
@@ -46,7 +45,7 @@ const MainScreen = ({ tracks, leaveMeeting }: Props) => {
     <>
       <div className="space-y-4 flex flex-col items-center rounded-lg">
         <div className="w-full h-96 bg-base-100 rounded-lg overflow-hidden flex justify-center items-center">
-          {tracks && trackState.video ? (
+          {tracks && isVideoActive ? (
             <AgoraVideoPlayer
               videoTrack={tracks[1]}
               style={{ height: "100%", width: "100%" }}
@@ -68,7 +67,7 @@ const MainScreen = ({ tracks, leaveMeeting }: Props) => {
                 mute("audio");
               }}
             >
-              {trackState.audio ? (
+              {isAudioActive ? (
                 <FiMic className="text-blue-500" />
               ) : (
                 <FiMicOff className="text-red-500" />
@@ -80,7 +79,7 @@ const MainScreen = ({ tracks, leaveMeeting }: Props) => {
                 mute("video");
               }}
             >
-              {trackState.video ? (
+              {isVideoActive ? (
                 <FiVideo className="text-blue-500" />
               ) : (
                 <FiVideoOff className="text-red-500" />
