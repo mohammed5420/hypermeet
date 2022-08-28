@@ -33,10 +33,10 @@ const MainScreen = ({ tracks, leaveMeeting }: Props) => {
   const mute = async (type: "video" | "audio") => {
     if (tracks) {
       if (type === "audio") {
-        await tracks[0].setEnabled(!isAudioActive);
+        await tracks[0].setMuted(isAudioActive);
         setIsAudioActive(!isAudioActive);
       } else if (type === "video") {
-        await tracks[1].setEnabled(!isVideoActive);
+        await tracks[1].setMuted(isVideoActive);
         setIsVideoActive(!isVideoActive);
       }
     }
