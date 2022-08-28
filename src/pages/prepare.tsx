@@ -5,7 +5,7 @@ import { FiArrowLeft, FiVideo } from "react-icons/fi";
 import Navbar from "../components/Navbar";
 const Prepare = dynamic(import("../components/Prepare"), { ssr: false });
 const PrePare = () => {
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleSubmit = () => {
     const { id } = Router.query;
     Router.push(`/meeting/${id}`);
   };

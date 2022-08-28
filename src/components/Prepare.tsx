@@ -1,23 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FiMic, FiMicOff, FiVideo, FiVideoOff } from "react-icons/fi";
 import {
   AgoraVideoPlayer,
-  ClientConfig,
-  createClient,
   createMicrophoneAndCameraTracks,
 } from "agora-rtc-react";
 import { useAtom } from "jotai";
 import { micAtom, cameraAtom } from "../jotai";
-import { env } from "../env/client.mjs";
 import { useSession } from "next-auth/react";
-const config: ClientConfig = { mode: "rtc", codec: "vp8" };
-const useClient = createClient(config);
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
 const Prepare = () => {
-  const client = useClient();
   const session = useSession();
-  const { ready, tracks } = useMicrophoneAndCameraTracks();
+  const { tracks } = useMicrophoneAndCameraTracks();
   const [isAudioActive, setIsAudioActive] = useAtom(micAtom);
   const [isVideoActive, setIsVideoActive] = useAtom(cameraAtom);
 

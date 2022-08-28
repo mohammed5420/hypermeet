@@ -3,11 +3,6 @@ import { useSession } from "next-auth/react";
 import Router from "next/router";
 import React, { useState } from "react";
 
-type Room = {
-  id: string;
-  hostID: string;
-};
-
 const JoinMeeting = () => {
   const [meetingID, setMeetingID] = useState("");
   const [inputError, setInputError] = useState(false);

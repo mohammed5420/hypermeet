@@ -14,7 +14,6 @@ import {
 import { env } from "../env/client.mjs";
 import dynamic from "next/dynamic.js";
 import Router from "next/router.js";
-import { Session } from "next-auth";
 import { useAtom } from "jotai";
 
 const Member = dynamic(import("./Member"), { ssr: false });

@@ -15,7 +15,6 @@ import {
   ICameraVideoTrack,
   IMicrophoneAudioTrack,
 } from "agora-rtc-react";
-import { env } from "../env/client.mjs";
 import { cameraAtom, micAtom } from "../jotai";
 import { useAtom } from "jotai";
 

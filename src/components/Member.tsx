@@ -16,15 +16,16 @@ type Props = {
 const Member = ({ agoraUser }: Props) => {
   console.log(agoraUser.uid);
   const [user, setUser] = useState<User>();
-  const fetchUser = async () => {
-    const { data } = await axios.post(`/api/users/getuser`, {
-      id: agoraUser.uid,
-    });
-    setUser(data);
-  };
+
   useEffect(() => {
+    const fetchUser = async () => {
+      const { data } = await axios.post(`/api/users/getuser`, {
+        id: agoraUser.uid,
+      });
+      setUser(data);
+    };
     fetchUser();
-  }, []);
+  }, [agoraUser.uid]);
   return (
     <div className="rounded-lg overflow-hidden h-48 relative col-span-3">
       {user && (
