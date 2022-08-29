@@ -137,8 +137,8 @@ const AgoraMain = () => {
     }
   };
   return (
-    <main className="grid grid-cols-12 gap-6 p-4 w-full max-w-screen-2xl mx-auto">
-      <div className="lg:col-start-4 row-start-1 row-end-3 lg:col-end-10 rounded-lg bg-base-300 p-4">
+    <main className="grid grid-cols-3 md:grid-cols-6 xl:grid-cols-12 gap-6 p-4 w-full max-w-screen-2xl mx-auto">
+      <div className=" row-start-1 row-end-3 col-span-3 md:col-auto md:col-start-2 md:col-end-6 xl:col-start-4 xl:col-end-10 rounded-lg bg-base-300 p-4">
         <MainScreen
           ready={ready}
           client={client}

@@ -23,10 +23,13 @@ const JoinMeeting = () => {
     }
   };
   return (
-    <form className="flex" onSubmit={handleSubmit}>
-      <div className="form-control">
+    <form
+      className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-2 w-full"
+      onSubmit={handleSubmit}
+    >
+      <div className="form-control w-full">
         <input
-          className="input mr-2"
+          className="input mr-2 w-full"
           placeholder="Enter Room ID"
           type="text"
           name="roomID"
@@ -40,7 +43,7 @@ const JoinMeeting = () => {
           </label>
         )}
       </div>
-      <button type="submit" className={`btn btn-secondary `}>
+      <button type="submit" className={`btn btn-secondary w-full lg:max-w-max`}>
         Join Meeting
       </button>
     </form>

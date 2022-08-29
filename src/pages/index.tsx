@@ -50,7 +50,7 @@ const Home: NextPage = () => {
         <Navbar />
         {session.data && (
           <main className="container mx-auto flex flex-col items-center justify-center min-h-screen p-4">
-            <div className="card w-full max-w-sm bg-base-300 p-4 space-y-6 flex-wrap">
+            <div className="card justify-center w-full max-w-sm bg-base-300 p-4 space-y-6 flex-wrap overflow-auto">
               <div className=" p-3 rounded-lg">
                 <div className="flex avatar items-center justify-center">
                   <div className="w-12 rounded-full mr-3">
@@ -59,7 +59,7 @@ const Home: NextPage = () => {
                   <h2>{session.data?.user?.name}</h2>
                 </div>
               </div>
-              <div className="card-body items-center p-0 space-y-6">
+              <div className="card-body w-full items-center p-0 space-y-6">
                 <h2 className="card-title text-center capitalize">
                   Welcome to the next generation meeting app
                 </h2>
