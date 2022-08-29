@@ -8,7 +8,7 @@ const MyApp: AppType = ({
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <ThemeProvider defaultTheme="dracula">
+    <ThemeProvider defaultTheme="night">
       <SessionProvider session={session}>
         <Component {...pageProps} />
       </SessionProvider>

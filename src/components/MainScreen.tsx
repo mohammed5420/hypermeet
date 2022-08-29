@@ -59,7 +59,7 @@ const MainScreen = ({ tracks, leaveMeeting }: Props) => {
           )}
         </div>
         <div className="controls">
-          <div className="btn-group text-xl">
+          <div className="btn-group text-xl flex-nowrap">
             <button
               className="btn text-lg"
               onClick={() => {

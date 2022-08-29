@@ -84,7 +84,7 @@ const Video = ({ setIsReady }: Props) => {
       {ready && tracks && (
         <div className="">
           <button onClick={() => leaveMeeting()}>leave meeting</button>
-          <div className="w-96 h-96">
+          <div className="w-full max-w-sm h-96">
             <AgoraVideoPlayer
               // audio={tracks[1]}
               videoTrack={tracks[1]}
