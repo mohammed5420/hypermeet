@@ -1,9 +1,9 @@
 import { useSession } from "next-auth/react";
 import React from "react";
 import {
+  FiCopy,
   FiMic,
   FiMicOff,
-  FiMonitor,
   FiPhoneMissed,
   FiVideo,
   FiVideoOff,
@@ -15,8 +15,9 @@ import {
   ICameraVideoTrack,
   IMicrophoneAudioTrack,
 } from "agora-rtc-react";
-import { cameraAtom, micAtom } from "../jotai";
+import { cameraAtom, micAtom, copyAlertAtom } from "../jotai";
 import { useAtom } from "jotai";
+import { useRouter } from "next/router";
 
 type Props = {
   tracks: [IMicrophoneAudioTrack, ICameraVideoTrack] | null;
@@ -27,6 +28,7 @@ type Props = {
 const MainScreen = ({ tracks, leaveMeeting }: Props) => {
   const [isAudioActive, setIsAudioActive] = useAtom(micAtom);
   const [isVideoActive, setIsVideoActive] = useAtom(cameraAtom);
+  const [copyAlert, setCopyAlert] = useAtom(copyAlertAtom);
   const session = useSession();
 
   const mute = async (type: "video" | "audio") => {
@@ -40,6 +42,17 @@ const MainScreen = ({ tracks, leaveMeeting }: Props) => {
       }
     }
   };
+
+  const copyLink = async () => {
+    navigator.clipboard.writeText(
+      `${process.env.NEXT_PUBLIC_APP_URL}/prepare?id=${router.query.roomID}`
+    );
+    setCopyAlert(true);
+    setTimeout(() => {
+      setCopyAlert(false);
+    }, 2000);
+  };
+  const router = useRouter();
   return (
     <>
       <div className="space-y-4 flex flex-col items-center rounded-lg">
@@ -71,6 +84,14 @@ const MainScreen = ({ tracks, leaveMeeting }: Props) => {
               ) : (
                 <FiMicOff className="text-red-500" />
               )}
+            </button>
+            <button
+              className="btn text-lg"
+              onClick={() => {
+                copyLink();
+              }}
+            >
+              <FiCopy className="text-blue-500 text-xl" />
             </button>
             <button
               className="btn text-lg"
