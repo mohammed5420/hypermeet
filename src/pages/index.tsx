@@ -50,7 +50,7 @@ const Home: NextPage = () => {
         <Navbar />
         {session.data && (
           <main className="container mx-auto flex flex-col items-center justify-center min-h-screen p-4">
-            <div className="card w-full max-w-sm bg-base-300 p-4 space-y-6">
+            <div className="card w-full max-w-sm bg-base-300 p-4 space-y-6 flex-wrap">
               <div className=" p-3 rounded-lg">
                 <div className="flex avatar items-center justify-center">
                   <div className="w-12 rounded-full mr-3">
