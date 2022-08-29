@@ -84,9 +84,6 @@ const MainScreen = ({ tracks, leaveMeeting }: Props) => {
                 <FiVideoOff className="text-red-500" />
               )}
             </button>
-            <button className="btn focus:btn-active">
-              <FiMonitor className="text-blue-500 text-xl" />
-            </button>
             <button className="btn focus:btn-active" onClick={leaveMeeting}>
               <FiPhoneMissed className="text-red-500 text-xl" />
             </button>
