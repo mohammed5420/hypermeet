@@ -1,6 +1,8 @@
+import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Router from "next/router";
+import { useEffect } from "react";
 import { FiArrowLeft, FiVideo } from "react-icons/fi";
 import Navbar from "../components/Navbar";
 const Prepare = dynamic(import("../components/Prepare"), { ssr: false });
@@ -9,6 +11,14 @@ const PrePare = () => {
     const { id } = Router.query;
     Router.push(`/meeting/${id}`);
   };
+  const session = useSession();
+
+  useEffect(() => {
+    //Redirect the user to the login page
+    if (session.status == "unauthenticated") {
+      Router.push("/login");
+    }
+  }, [session]);
   return (
     <>
       <Head>
