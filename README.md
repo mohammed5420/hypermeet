@@ -6,7 +6,7 @@ The Next Generation Meeting App
 
 [HyperMeet](https://hypermeet.vercel.app/)
 
-This Project is part of [Dannis Lvy's hackathon](https://github.com/divanov11/Hackathon---Code-Battle-Edition)
+This Project is part of [Dennis Lvy's hackathon](https://github.com/divanov11/Hackathon---Code-Battle-Edition)
 
 ## Technologies
 
