@@ -15,6 +15,7 @@ import { env } from "../env/client.mjs";
 import dynamic from "next/dynamic.js";
 import Router from "next/router.js";
 import { useAtom } from "jotai";
+import axios from "axios";
 
 const Member = dynamic(import("./Member"), { ssr: false });
 
@@ -89,12 +90,18 @@ const AgoraMain = () => {
     const init = async () => {
       try {
         if (session.data) {
-          await client.join(
-            env.NEXT_PUBLIC_AGORA_APP_ID,
-            env.NEXT_PUBLIC_AGORA_CHANNEL_NAME,
-            env.NEXT_PUBLIC_AGORA_APP_TOKEN,
-            session.data.user?.id
+          const res = await axios.get(
+            `/api/token/${session.data.user?.id}/publisher`
           );
+          console.log(res);
+          if (res.data) {
+            await client.join(
+              env.NEXT_PUBLIC_AGORA_APP_ID,
+              env.NEXT_PUBLIC_AGORA_CHANNEL_NAME,
+              res.data.token,
+              session.data.user?.id
+            );
+          }
 
           if (tracks) {
             tracks[0].setMuted(!isAudioActive);
@@ -118,7 +125,15 @@ const AgoraMain = () => {
         console.log(error);
       }
     }
-  }, [client, ready, tracks, session, joinedMeeting]);
+  }, [
+    client,
+    ready,
+    tracks,
+    session,
+    joinedMeeting,
+    isAudioActive,
+    isVideoActive,
+  ]);
 
   const leaveMeeting = async () => {
     try {
