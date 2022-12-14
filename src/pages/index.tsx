@@ -8,12 +8,15 @@ import Router from "next/router";
 import JoinMeeting from "../components/JoinMeeting";
 import axios from "axios";
 import Navbar from "../components/Navbar";
+import { trpc } from "../utils/trpc";
 
 // const Video = dynamic(import("../components/Video"), { ssr: false });
 
 const Home: NextPage = () => {
   const session = useSession();
+  const { data, isLoading } = trpc.example.hello.useQuery({ text: "Mohamed" });
 
+  console.log({ data: data?.greeting });
   useEffect(() => {
     //Redirect the user to the login page
     if (session.status == "unauthenticated") {
