@@ -19,6 +19,7 @@ export const authOptions: NextAuthOptions = {
   },
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
+  debug: true,
   providers: [
     GithubProvider({
       clientId: env.GITHUB_CLIENT_ID,
@@ -38,6 +39,14 @@ export const authOptions: NextAuthOptions = {
           response_type: "code",
         },
       },
+      // profile(profile) {
+      //   return {
+      //     id: profile.id.toString(),
+      //     name: profile.name || profile.login,
+      //     email: profile.email,
+      //     image: profile.avatar_url,
+      //   };
+      // },
     }),
     // ...add more providers here
   ],
