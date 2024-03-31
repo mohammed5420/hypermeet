@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { RtcTokenBuilder, RtcRole } from "agora-access-token";
+import { RtcTokenBuilder, RtcRole } from "agora-token";
 import { env } from "../../../env/server.mjs";
 
 type Params = Partial<{
@@ -37,16 +37,15 @@ export default async function generateRTCToken(
     const currentTime = Math.floor(Date.now() / 1000);
     const privilegeExpireTime = currentTime + expireTime;
 
-    const token = RtcTokenBuilder.buildTokenWithAccount(
+    const token = RtcTokenBuilder.buildTokenWithUid(
       env.AGORA_APP_ID,
       env.AGORA_CERTIFICATE,
       env.NEXT_PUBLIC_AGORA_CHANNEL_NAME,
       uid,
       role,
+      expireTime,
       privilegeExpireTime
     );
-
-    console.log({ token });
 
     res.status(201).json({ token });
   }
