@@ -39,15 +39,15 @@ export const authOptions: NextAuthOptions = {
     //       response_type: "code",
     //     },
     //   },
-      // profile(profile) {
-      //   return {
-      //     id: profile.id.toString(),
-      //     name: profile.name || profile.login,
-      //     email: profile.email,
-      //     image: profile.avatar_url,
-      //   };
-      // },
-    }),
+    // profile(profile) {
+    //   return {
+    //     id: profile.id.toString(),
+    //     name: profile.name || profile.login,
+    //     email: profile.email,
+    //     image: profile.avatar_url,
+    //   };
+    // },
+    // }),
     // ...add more providers here
   ],
 };
